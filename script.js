@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".fade").forEach(el => observer.observe(el));
 
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE + DRAG ===
-    document.addEventListener("DOMContentLoaded", function() {
 
     const musicBtn = document.getElementById("musicBtn");
     const audio = document.getElementById("bgm");
