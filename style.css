@@ -40,45 +40,13 @@
 
 .sep-top { top: -25px; } .sep-bottom { bottom: -25px; }
 
-/* ===== GALLERY ===== */ .gallery {
-            width: 90%;
-            max-width: 400px;
-            margin: 70px auto;
-            overflow: hidden;
-            border-radius: 30px;
-            box-shadow:
-                0 15px 40px rgba(0,0,0,0.6),
-                0 0 20px rgba(212,175,55,0.6),
-                0 0 40px rgba(212,175,55,0.4),
-                0 0 70px rgba(212,175,55,0.2);
-            animation: goldPulse 6s infinite ease-in-out;
-        }
-        @keyframes goldPulse {
-            0% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5), 0 0 35px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15); }
-            50% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 25px rgba(212,175,55,0.7), 0 0 55px rgba(212,175,55,0.45), 0 0 90px rgba(212,175,55,0.25); }
-            100% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5), 0 0 35px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15); }
-        }
-        .slides {
-            display: flex;
-            width: 500%;
-            animation: slide 20s infinite;
-            transition: transform 0.5s ease;
-        }
-        .slides img {
-            width: 20%;
-            height: auto;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        @keyframes slide {
-            0%, 16%   { transform: translateX(0%); }
-            20%, 36%  { transform: translateX(-20%); }
-            40%, 56%  { transform: translateX(-40%); }
-            60%, 76%  { transform: translateX(-60%); }
-            80%, 96%  { transform: translateX(-80%); }
-            100%      { transform: translateX(0%); }
-        }
+/* ===== GALLERY ===== */ .gallery { width: 100%; overflow: hidden; margin: 40px 0; }
+
+.slides { display: flex; gap: 12px; animation: slideShow 18s infinite linear; }
+
+.slides img { width: 100%; border-radius: 15px; }
+
+@keyframes slideShow { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
 /* ===== UCAPAN MARQUEE ===== */ .ucapan-wrapper { margin: 50px 0; }
 
@@ -114,7 +82,13 @@
 
 #btnAutoScroll img { width: 50px; }
 
-/* ==== FIX: Prevent images keluar viewport ==== */ .details img, #rmrnBox img { max-width: 120px; height: auto; display: block; margin: 20px auto; }
+/* ==== FIX: Prevent images keluar viewport ==== / .details img { max-width: 260px; / kecil biar tidak gede */ width: 80%; height: auto; display: block; margin: 20px auto; }
+
+#musicBtn, #btnAutoScroll img { width: 55px !important; height: auto; }
+
+#musicBtn { padding: 6px; }
+
+/* ===== FOOTER ==== */ .details img, #rmrnBox img { max-width: 120px; height: auto; display: block; margin: 20px auto; }
 
 #rmrnFooter img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
