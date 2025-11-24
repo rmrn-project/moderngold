@@ -1,14 +1,42 @@
 /* PREMIUM GOLD FULL STYLE — bersih, tanpa konflik */
 
-/* ===== GLOBAL ===== */ body { margin: 0; padding: 0; font-family: 'Lora', serif; background: #0d0d0d; color: #f5f0e6; overflow-x: hidden; }
+/* ===== GLOBAL ===== */ 
 
-.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.55); z-index: -1; }
 
-.container { max-width: 720px; margin: auto; padding: 20px; text-align: center; }
+* { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            min-height: 100dvh;
+            background: black;/*#3c2f2f*/
+            font-family: 'Lora', serif;
+            color: #fff;
+            overflow-x: hidden;
+            padding-bottom: 90px;
+        }
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 1;
+            display: none !important;
+        }
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 60px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
 
-.fade { opacity: 0; transform: translateY(20px); animation: fadeIn 1.2s ease forwards; }
+.fade {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease-out;
+        }
+        .fade.show { opacity: 1; transform: translateY(0); 
+}
 
-@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
 /* ===== PHOTO WRAPPER ===== */ .photo-wrapper { position: relative; margin-top: 20px; }
 
