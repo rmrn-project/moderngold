@@ -110,10 +110,77 @@ body {
 @keyframes slideShow { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
 /* ===== UCAPAN MARQUEE ===== */
-.ucapan-wrapper { margin: 50px 0; }
-.ucapan-mask { overflow: hidden; mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent); }
-.ucapan-marquee { display: flex; gap: 50px; animation: ucapanScroll 30s linear infinite; }
-@keyframes ucapanScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+/* Wrapper utama */
+.ucapan-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    overflow: hidden !important;
+    margin: 35px 0;
+}
+
+/* Mask — pembatas viewport */
+.ucapan-mask {
+    width: 100%;
+    overflow: hidden;     /* FIX utama */
+    position: relative;
+}
+
+/* Marquee asli */
+.ucapan-marquee {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    width: max-content;
+    animation: slideKiri 35s linear infinite;
+    white-space: nowrap;
+    font-size : 16px;
+    font-style: italic;
+    font-family: "Cormorant Garamont", serif;
+}
+
+/* List ucapan kiri & clone */
+#listUcapan,
+#listUcapanClone {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+}
+
+/* Card */
+.ucapan-item {
+    flex: 0 0 300px;
+    background: rgba(255,255,255,0.14);
+    padding: 20px;
+    border-radius: 18px;
+}
+
+/* Animasi */
+@keyframes slideKiri {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+
+/* PETIK OTOMATIS UNTUK UCAPAN */
+.ucapan-item p {
+    font-style: italic;
+    position: relative;
+    padding: 0 10px;
+}
+
+.ucapan-item p::before {
+    content: "“";
+    font-size: 22px;
+    margin-right: 3px;
+}
+
+.ucapan-item p::after {
+    content: "”";
+    font-size: 22px;
+    margin-left: 3px;
+}
 
 /* ===== DETAILS ===== */
 .details { margin: 50px 0; }
