@@ -25,23 +25,19 @@ if (musicBtn && audio) {
     audio.volume = 0.3;
     audio.currentTime = 1;
 
-    let isDragging = false, startX = 0, startY = 0;
-    let initialLeft = 0, initialTop = 0;
-
-    // Klik untuk play/pause
+    // Play / Pause hanya jika tombol diklik/tap
     musicBtn.addEventListener("click", () => {
-        if (!isDragging) { // hanya klik, bukan drag
-            if (audio.paused) {
-                audio.play().catch(() => {});
-                document.getElementById('playIcon').style.display = 'none';
-                document.getElementById('pauseIcon').style.display = 'block';
-            } else {
-                audio.pause();
-                document.getElementById('playIcon').style.display = 'block';
-                document.getElementById('pauseIcon').style.display = 'none';
-            }
+        if (audio.paused) {
+            audio.play().catch(() => {});
+            document.getElementById('playIcon').style.display = 'none';
+            document.getElementById('pauseIcon').style.display = 'block';
+        } else {
+            audio.pause();
+            document.getElementById('playIcon').style.display = 'block';
+            document.getElementById('pauseIcon').style.display = 'none';
         }
     });
+}
 
     // Mulai drag
     function startDrag(e) {
