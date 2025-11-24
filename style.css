@@ -72,29 +72,36 @@
 }
 
 /* ===== GALLERY ===== */
+/* ===== GALLERY — FIX AGAR MUNCUL DI HP ===== */
 .gallery {
-    width: 100%;
-    overflow: hidden;
-    margin: 40px 0;
+  width: 100%;
+  max-width: 360px; /* batasi biar ga gede */
+  margin: 40px auto;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .slides {
-    display: flex;
-    gap: 12px;
-    animation: slideShow 18s infinite linear;  /* keyframe tetap dipakai */
+  display: flex;
+  gap: 12px;
+  width: max-content; /* penting supaya flex slider jalan */
+  animation: geser 18s linear infinite;
 }
 
 .slides img {
-    width: 100%;
-    border-radius: 15px;
+  width: 85vw !important;   /* responsive di HP */
+  max-width: 340px;         /* batasi maksimal */
+  height: auto !important;
+  object-fit: cover;
+  border-radius: 15px;
+  flex-shrink: 0;
 }
 
-/* Keyframe asli slideShow */
-@keyframes slideShow {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+/* keyframe tidak diutak-atik */
+@keyframes geser {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
-
 
 
 
