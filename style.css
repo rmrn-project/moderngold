@@ -40,21 +40,63 @@
 
 .sep-top { top: -25px; } .sep-bottom { bottom: -25px; }
 
-/* ===== GALLERY — FIX AGAR MUNCUL DI HP ===== */ .gallery { width: 100%; max-width: 360px; margin: 40px auto; overflow: hidden; border-radius: 20px; }
+/* ===== GALLERY — FIX AGAR MUNCUL DI HP ===== */ /* ===== GALLERY — FIX AGAR MUNCUL DI HP ===== */
+.gallery {
+    width: 100%;
+    max-width: 360px;      /* versi HP friendly */
+    margin: 40px auto;
+    overflow: hidden;
+    border-radius: 20px;
+}
 
-.slides { display: flex; gap: 12px; width: max-content; animation: geser 18s linear infinite; }
+.slides {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: geser 18s linear infinite;  /* keyframe tetap dipakai */
+}
 
-.slides img { width: 85vw !important; max-width: 340px; height: auto !important; object-fit: cover; border-radius: 15px; flex-shrink: 0; }
+.slides img {
+    width: 85vw !important;
+    max-width: 340px;
+    height: auto !important;
+    object-fit: cover;
+    border-radius: 15px;
+    flex-shrink: 0;
+}
 
-@keyframes geser { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+/* Keyframe asli geser */
+@keyframes geser {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
 
-/* ===== GALLERY ===== */ .gallery { width: 100%; overflow: hidden; margin: 40px 0; }
+/* ===== GALLERY ===== */
+.gallery {
+    width: 100%;
+    overflow: hidden;
+    margin: 40px 0;
+}
 
-.slides { display: flex; gap: 12px; animation: slideShow 18s infinite linear; }
+.slides {
+    display: flex;
+    gap: 12px;
+    animation: slideShow 18s infinite linear;  /* keyframe tetap dipakai */
+}
 
-.slides img { width: 100%; border-radius: 15px; }
+.slides img {
+    width: 100%;
+    border-radius: 15px;
+}
 
-@keyframes slideShow { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+/* Keyframe asli slideShow */
+@keyframes slideShow {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+
+
 
 /* ===== UCAPAN MARQUEE ===== */ .ucapan-wrapper { margin: 50px 0; }
 
