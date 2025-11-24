@@ -263,14 +263,7 @@
     transform: translateZ(0);
     will-change: transform, left, top;
 }
-
-
-        @media (max-width:480px) {
-            .couple-photo { width: 220px; height: 220px; }
-            .gallery { max-width: 340px; }
-        }
-
-
+        
 
 /* ===== AUTO SCROLL BUTTON ===== */
 #btnAutoScroll {
