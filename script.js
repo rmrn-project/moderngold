@@ -20,65 +20,43 @@ document.addEventListener("DOMContentLoaded", function() {
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE + DRAG ===
     const musicBtn = document.getElementById("musicBtn");
 const audio = document.getElementById("bgm");
+const playIcon = document.getElementById("playIcon");
+const pauseIcon = document.getElementById("pauseIcon");
 
 if (musicBtn && audio) {
     audio.volume = 0.3;
     audio.currentTime = 1;
 
-    // Play / Pause hanya jika tombol diklik/tap
-    musicBtn.addEventListener("click", () => {
-        if (audio.paused) {
-            audio.play().catch(() => {});
-            document.getElementById('playIcon').style.display = 'none';
-            document.getElementById('pauseIcon').style.display = 'block';
-        } else {
-            audio.pause();
-            document.getElementById('playIcon').style.display = 'block';
-            document.getElementById('pauseIcon').style.display = 'none';
-        }
-    });
-}
+    let isDragging = false, offsetX = 0, offsetY = 0;
 
-    // Mulai drag
+    // --- Drag Tombol ---
     function startDrag(e) {
-        isDragging = false;
+        isDragging = true;
         const rect = musicBtn.getBoundingClientRect();
-        initialLeft = rect.left;
-        initialTop = rect.top;
-        startX = e.touches ? e.touches[0].clientX : e.clientX;
-        startY = e.touches ? e.touches[0].clientY : e.clientY;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+        e.preventDefault();
     }
 
     function moveDrag(e) {
+        if (!isDragging) return;
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-        if (!isDragging) {
-            if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
-                isDragging = true;
-            } else return;
-        }
-
-        let x = initialLeft + (clientX - startX);
-        let y = initialTop + (clientY - startY);
-
-        const rect = musicBtn.getBoundingClientRect();
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        x = Math.max(0, Math.min(x, vw - rect.width));
-        y = Math.max(0, Math.min(y, vh - rect.height));
-
+        const rect = musicBtn.getBoundingClientRect();
+        let x = Math.max(0, Math.min(clientX - offsetX, vw - rect.width));
+        let y = Math.max(0, Math.min(clientY - offsetY, vh - rect.height));
         musicBtn.style.left = x + "px";
         musicBtn.style.top = y + "px";
         musicBtn.style.right = "auto";
         musicBtn.style.bottom = "auto";
-
         e.preventDefault();
     }
 
-    function stopDrag() {
-        isDragging = false;
-    }
+    function stopDrag() { isDragging = false; }
 
     musicBtn.addEventListener("mousedown", startDrag);
     musicBtn.addEventListener("touchstart", startDrag, { passive: false });
@@ -86,7 +64,24 @@ if (musicBtn && audio) {
     document.addEventListener("touchmove", moveDrag, { passive: false });
     document.addEventListener("mouseup", stopDrag);
     document.addEventListener("touchend", stopDrag);
+
+    // --- Klik Tombol untuk Play/Pause ---
+    musicBtn.addEventListener("click", (e) => {
+        // Jangan jalankan musik saat drag
+        if (isDragging) return;
+        if (audio.paused) {
+            audio.play().catch(() => {});
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        } else {
+            audio.pause();
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        }
+    });
 }
+
+
 
     
     // === 4. AUTO SCROLL + TOMBOL PANAH BAWAH ===
