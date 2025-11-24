@@ -25,53 +25,47 @@ if (musicBtn && audio) {
     audio.volume = 0.3;
     audio.currentTime = 1;
 
-    let isDragging = false, offsetX = 0, offsetY = 0;
-    let dragThreshold = 5; // ambang minimal pergerakan agar dianggap drag
+    let isDragging = false, startX = 0, startY = 0;
+    let initialLeft = 0, initialTop = 0;
 
     // Klik untuk play/pause
-    function toggleMusic() {
-        if (audio.paused) {
-            audio.play().catch(() => {});
-            document.getElementById('playIcon').style.display = 'none';
-            document.getElementById('pauseIcon').style.display = 'block';
-        } else {
-            audio.pause();
-            document.getElementById('playIcon').style.display = 'block';
-            document.getElementById('pauseIcon').style.display = 'none';
+    musicBtn.addEventListener("click", () => {
+        if (!isDragging) { // hanya klik, bukan drag
+            if (audio.paused) {
+                audio.play().catch(() => {});
+                document.getElementById('playIcon').style.display = 'none';
+                document.getElementById('pauseIcon').style.display = 'block';
+            } else {
+                audio.pause();
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
+            }
         }
-    }
+    });
 
+    // Mulai drag
     function startDrag(e) {
         isDragging = false;
         const rect = musicBtn.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        offsetX = clientX - rect.left;
-        offsetY = clientY - rect.top;
-        musicBtn.dataset.startX = clientX;
-        musicBtn.dataset.startY = clientY;
-        e.preventDefault();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        startX = e.touches ? e.touches[0].clientX : e.clientX;
+        startY = e.touches ? e.touches[0].clientY : e.clientY;
     }
 
     function moveDrag(e) {
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-        const startX = parseFloat(musicBtn.dataset.startX);
-        const startY = parseFloat(musicBtn.dataset.startY);
-
         if (!isDragging) {
             if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
                 isDragging = true;
-            } else {
-                return; // belum cukup bergerak, bukan drag
-            }
+            } else return;
         }
 
-        let x = clientX - offsetX;
-        let y = clientY - offsetY;
+        let x = initialLeft + (clientX - startX);
+        let y = initialTop + (clientY - startY);
 
-        // clamp posisi supaya tidak keluar viewport
         const rect = musicBtn.getBoundingClientRect();
         const vw = window.innerWidth;
         const vh = window.innerHeight;
@@ -82,13 +76,11 @@ if (musicBtn && audio) {
         musicBtn.style.top = y + "px";
         musicBtn.style.right = "auto";
         musicBtn.style.bottom = "auto";
+
         e.preventDefault();
     }
 
-    function stopDrag(e) {
-        if (!isDragging) {
-            toggleMusic(); // jika cuma tap, jalankan play/pause
-        }
+    function stopDrag() {
         isDragging = false;
     }
 
