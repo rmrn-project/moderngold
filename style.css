@@ -194,7 +194,7 @@ overflow-y:visible !important; margin:35px 0;}
 
 
 /* ===== TOMBOL AUTO SCROLL – 100% SAMA + LEBIH RAPI ===== */
-/* PAKAI INI – PASTI MUNCUL 100% */
+/* PAKAI INI – PASTI MUNCUL 100% 
 #btnAutoScroll{
     position:fixed !important;
     top:20px !important;
@@ -217,3 +217,5 @@ overflow-y:visible !important; margin:35px 0;}
     object-fit:contain !important;
     display:block !important;
 }
+
+*/
