@@ -1,202 +1,251 @@
-// js/moderngold.js — versi robust + debug
-(function(){
-  // helper debug
-  const dbg = (...args) => {
-    if (window.location.hostname === "localhost" || window.location.search.includes("debug")) {
-      console.log("[MODERNGOLD]", ...args);
-    } else {
-      // uncomment to always see logs: console.log("[MODERNGOLD]", ...args);
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('show')), {threshold: 0.1});
+        document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+        const audio = document.getElementById('bgm'); audio.volume = 0.3;
+audio.currentTime = 1;   
+    document.getElementById('musicBtn').onclick = () => {
+            if (audio.paused) {
+                audio.play().catch(() => {});
+                document.getElementById('playIcon').style.display = 'none';
+                document.getElementById('pauseIcon').style.display = 'block';
+            } else {
+                audio.pause();
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
+            }
+        };
+
+
+//FUNGSI DRAG PLAY BUTTON
+
+        const btn = document.getElementById("musicBtn");
+let isDragging = false, offsetX = 0, offsetY = 0;
+
+function clampPosition(x, y) {
+    const r = btn.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // Batas minimum dan maksimum
+    const minX = 0;
+    const minY = 0;
+    const maxX = vw - r.width;
+    const maxY = vh - r.height;
+
+    // Kembalikan nilai yang sudah dikunci agar tidak keluar
+    return {
+        x: Math.max(minX, Math.min(x, maxX)),
+        y: Math.max(minY, Math.min(y, maxY))
+    };
+}
+
+btn.addEventListener("mousedown", e => {
+    isDragging = true;
+    const r = btn.getBoundingClientRect();
+    offsetX = e.clientX - r.left;
+    offsetY = e.clientY - r.top;
+});
+
+btn.addEventListener("touchstart", e => {
+    isDragging = true;
+    const r = btn.getBoundingClientRect();
+    offsetX = e.touches[0].clientX - r.left;
+    offsetY = e.touches[0].clientY - r.top;
+});
+
+document.addEventListener("mousemove", e => {
+    if (isDragging) {
+        let { x, y } = clampPosition(e.clientX - offsetX, e.clientY - offsetY);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
+    }
+});
+
+document.addEventListener("touchmove", e => {
+    if (isDragging) {
+        let { x, y } = clampPosition(e.touches[0].clientX - offsetX, e.touches[0].clientY - offsetY);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
+    }
+});
+
+document.addEventListener("mouseup", () => isDragging = false);
+document.addEventListener("touchend", () => isDragging = false);
+
+
+
+
+// FUNGSI COPY REK
+
+        function copyRek(id) {
+            navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+                const n = document.getElementById('notif' + id.slice(-1));
+                n.style.display = "block";
+                setTimeout(() => n.style.display = "none", 1500);
+            });
+        }
+
+    <!-- FIREBASE YANG PASTI JALAN 100% (v9 modular - paling stabil) -->
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  const app = initializeApp({
+    apiKey: "AIzaSyCBNM5NpBwHOwyla5LcBZId7SCUIBgthnw",
+    authDomain: "ertiawed.firebaseapp.com",
+    projectId: "ertiawed",
+    storageBucket: "ertiawed.firebasestorage.app",
+    messagingSenderId: "580476029012",
+    appId: "1:580476029012:web:266389781d60b1bad4c5c1"
+  });
+
+  const db = getFirestore(app);
+  const col = collection(db, "ucapan");
+  const list = document.getElementById("listUcapan");
+  const btn = document.getElementById("kirimUcapan");
+
+
+
+
+
+
+  // Render ucapan — DIBUAT LEBIH CANTIK & SESUAI SLIDER
+  const render = (data) => {
+    const d = document.createElement("div");
+    d.className = "ucapan-item";
+    const t = data.waktu 
+      ? new Date(data.waktu.seconds*1000).toLocaleString("id-ID", {
+          dateStyle: "long",
+          timeStyle: "short"
+        }) 
+      : "Baru saja";
+
+    d.innerHTML = `
+      <strong style="color:#d4af37;font-size:1.15em;display:block;margin-bottom:6px;">${data.nama}</strong>
+      <small style="color:#ccc;font-size:0.88em;display:block;margin-bottom:10px;opacity:0.9;">${t}</small>
+      <p style="margin:0;line-height:1.75;font-size:0.98em;opacity:0.95;">${data.doa.replace(/\n/g,"<br>")}</p>
+    `;
+    return d;
+  };
+
+
+
+  // Real-time listener — DIPERBAIKI BIAR HORIZONTAL & SLIDE SATU-SATU
+  onSnapshot(query(col, orderBy("waktu","desc")), snap => {
+    const list = document.getElementById("listUcapan");
+    const clone = document.getElementById("listUcapanClone");
+
+    list.innerHTML = "";
+    clone.innerHTML = "";
+
+    if (snap.empty) {
+      const kosong = `<div class="ucapan-item" style="width:300px;text-align:center;color:#aaa;padding:30px 0;font-style:italic;">Belum ada ucapan nih...</div>`;
+      list.innerHTML = kosong;
+      clone.innerHTML = kosong;
+      return;
+    }
+
+    snap.forEach(doc => {
+      const item = render(doc.data());
+      list.appendChild(item);
+      clone.appendChild(item.cloneNode(true)); // clone biar loop mulus
+    });
+  });
+
+
+
+  // KIRIM UCAPAN — SUPER CEPET TANPA FOTO
+  btn.onclick = async () => {
+    if (localStorage.getItem("ucapanSandiErtia2025")) {
+      alert("Kamu sudah mengirimkan ucapan sebelumnya. Terima kasih banyak ya ❤️");
+      return;
+    }
+
+    const nama = document.getElementById("nama").value.trim();
+    const doa = document.getElementById("doa").value.trim();
+
+    if (!nama || !doa) {
+      alert("Nama dan ucapan wajib diisi ya");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Mengirim...";
+
+    try {
+      await addDoc(col, {
+        nama: nama,
+        doa: doa,
+        waktu: serverTimestamp()
+      });
+
+      localStorage.setItem("ucapanSandiErtia2025", "yes");
+
+      document.getElementById("nama").value = "";
+      document.getElementById("doa").value = "";
+
+      alert("Yeay! Ucapanmu sudah tersimpan ❤️");
+      btn.textContent = "Terkirim";
+      btn.style.background = "#90ee90";
+      btn.style.color = "#000";
+
+      // Langsung muncul di paling atas
+      list.prepend(render({ nama, doa, waktu: {seconds: Date.now()/1000} }));
+
+    } catch(e) {
+      alert("Gagal kirim ucapan. Coba lagi ya");
+      btn.disabled = false;
+      btn.textContent = "Kirim Ucapan";
     }
   };
 
-  window.addEventListener("load", () => { // safer: run after everything loaded
-    try {
-      dbg("script started (window.load)");
+  // Sudah pernah kirim
+  if (localStorage.getItem("ucapanSandiErtia2025")) {
+    btn.disabled = true;
+    btn.textContent = "Terkirim";
+    btn.style.background = "#90ee90";
+    btn.style.color = "#000";
+  }
 
-      // ==================== TAHUN & FADE ====================
-      try {
-        const yearEl = document.getElementById("year");
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
-        else dbg("year element not found");
-      } catch (e) { dbg("year error", e); }
 
-      try {
-        const fades = document.querySelectorAll(".fade");
-        if (fades.length) {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) entry.target.classList.add("show");
-            });
-          }, { threshold: 0.1 });
-          fades.forEach(el => observer.observe(el));
-        } else dbg("no .fade elements found");
-      } catch (e) { dbg("fade error", e); }
 
-      // ==================== MUSIC (guarded) ====================
-      try {
-        const audio = document.getElementById("bgm");
-        const musicBtn = document.getElementById("musicBtn");
-        const playIcon = document.getElementById("playIcon");
-        const pauseIcon = document.getElementById("pauseIcon");
+let autoScroll = null;
+let userTouching = false;
 
-        if (audio) {
-          audio.volume = 0.3;
-          // try/catch for currentTime in some browsers
-          try { audio.currentTime = 1; } catch(e) { dbg("audio.currentTime err", e); }
-        } else dbg("audio element not found");
+// Mulai auto scroll
+function startAutoScroll() {
+    if (autoScroll) return;
 
-        if (musicBtn) {
-          musicBtn.style.touchAction = "none"; // helps with dragging on some devices
-          musicBtn.addEventListener("click", () => {
-            if (!audio) return;
-            if (audio.paused) {
-              audio.play().catch(() => dbg("audio play rejected"));
-              if (playIcon) playIcon.style.display = "none";
-              if (pauseIcon) pauseIcon.style.display = "block";
-            } else {
-              audio.pause();
-              if (playIcon) playIcon.style.display = "block";
-              if (pauseIcon) pauseIcon.style.display = "none";
-            }
-          });
+    autoScroll = setInterval(() => {
+        window.scrollBy(0, 1); // kecepatan scroll
+    }, 20);
 
-          // DRAG (guarded)
-          let isDragging = false, offsetX = 0, offsetY = 0;
-          const clamp = (x, y) => {
-            const r = musicBtn.getBoundingClientRect();
-            const maxX = window.innerWidth - r.width;
-            const maxY = window.innerHeight - r.height;
-            return { x: Math.max(0, Math.min(x, maxX)), y: Math.max(0, Math.min(y, maxY)) };
-          };
+    document.getElementById("btnAutoScroll").style.display = "none";
+}
 
-          musicBtn.addEventListener("mousedown", e => {
-            isDragging = true;
-            offsetX = e.clientX - musicBtn.getBoundingClientRect().left;
-            offsetY = e.clientY - musicBtn.getBoundingClientRect().top;
-          });
-          musicBtn.addEventListener("touchstart", e => {
-            isDragging = true;
-            offsetX = e.touches[0].clientX - musicBtn.getBoundingClientRect().left;
-            offsetY = e.touches[0].clientY - musicBtn.getBoundingClientRect().top;
-            e.preventDefault();
-          }, { passive: false });
+// Stop auto scroll
+function stopAutoScroll() {
+    clearInterval(autoScroll);
+    autoScroll = null;
+}
 
-          document.addEventListener("mousemove", e => {
-            if (isDragging) {
-              const p = clamp(e.clientX - offsetX, e.clientY - offsetY);
-              musicBtn.style.left = p.x + "px";
-              musicBtn.style.top = p.y + "px";
-            }
-          });
-          document.addEventListener("touchmove", e => {
-            if (isDragging) {
-              const p = clamp(e.touches[0].clientX - offsetX, e.touches[0].clientY - offsetY);
-              musicBtn.style.left = p.x + "px";
-              musicBtn.style.top = p.y + "px";
-            }
-            e.preventDefault();
-          }, { passive: false });
+// Jika user menyentuh layar → stop auto scroll
+document.addEventListener("touchstart", () => {
+    userTouching = true;
+    stopAutoScroll();
+    document.getElementById("btnAutoScroll").style.display = "block";
+});
 
-          document.addEventListener("mouseup", () => isDragging = false);
-          document.addEventListener("touchend", () => isDragging = false);
-        } else dbg("musicBtn not found — skipping music UI");
-      } catch (e) { dbg("music block error", e); }
+document.addEventListener("touchend", () => {
+    userTouching = false;
+});
 
-      // ==================== COPY REKENING ====================
-      try {
-        window.copyRek = function(id) {
-          const el = document.getElementById(id);
-          if (!el) { dbg("copyRek: element", id, "not found"); return; }
-          navigator.clipboard.writeText(el.innerText).then(() => {
-            const n = document.getElementById("notif" + id.slice(-1));
-            if (n) {
-              n.style.display = "block";
-              setTimeout(() => n.style.display = "none", 1600);
-            }
-          }).catch(err => dbg("copyRek writeText failed", err));
-        };
-      } catch (e) { dbg("copyRek error", e); }
+// Klik tombol untuk lanjut scroll
+document.getElementById("btnAutoScroll").addEventListener("click", () => {
+    startAutoScroll();
+});
 
-      // ==================== AUTO SCROLL (robust) ====================
-      try {
-        let autoScroll = null;
-        let userTouching = false;
-
-        // helper: show/hide any button(s) with id btnAutoScroll
-        const showAutoButtons = (show) => {
-          const arr = document.querySelectorAll("#btnAutoScroll");
-          arr.forEach(b => {
-            b.style.display = show ? "block" : "none";
-          });
-        };
-
-        function startAutoScroll() {
-          if (autoScroll) return;
-          dbg("startAutoScroll");
-          autoScroll = setInterval(() => {
-            window.scrollBy(0, 1);
-          }, 20);
-          showAutoButtons(false);
-        }
-
-        function stopAutoScroll() {
-          if (!autoScroll) return;
-          dbg("stopAutoScroll");
-          clearInterval(autoScroll);
-          autoScroll = null;
-        }
-
-        // stop on touchstart / wheel / keydown (arrow/page)
-        document.addEventListener("touchstart", () => {
-          userTouching = true;
-          stopAutoScroll();
-          showAutoButtons(true);
-        }, { passive: true });
-
-        document.addEventListener("wheel", () => {
-          stopAutoScroll();
-          showAutoButtons(true);
-        }, { passive: true });
-
-        document.addEventListener("keydown", (e) => {
-          const keys = ["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "];
-          if (keys.includes(e.key)) {
-            stopAutoScroll();
-            showAutoButtons(true);
-          }
-        });
-
-        // Event delegation for clicks on the button (works if button added later)
-        document.addEventListener("click", (e) => {
-          const btn = e.target.closest && e.target.closest("#btnAutoScroll");
-          if (!btn) return;
-          dbg("btnAutoScroll clicked (delegated)");
-          // ensure image inside doesn't block pointer-events; but we still handle it
-          startAutoScroll();
-        });
-
-        // If button(s) already exist, ensure image doesn't capture pointer
-        document.querySelectorAll("#btnAutoScroll img").forEach(img => {
-          img.style.pointerEvents = "none";
-        });
-
-        // initial: if there's a button but hidden via CSS, make sure visible
-        const firstBtn = document.querySelector("#btnAutoScroll");
-        if (firstBtn) {
-          // ensure it's clickable and on top
-          firstBtn.style.position = firstBtn.style.position || "fixed";
-          firstBtn.style.zIndex = firstBtn.style.zIndex || "999999";
-          firstBtn.style.display = firstBtn.style.display || "block";
-          dbg("auto scroll button present in DOM");
-        } else {
-          dbg("auto scroll button NOT present at load");
-        }
-
-      } catch (e) { dbg("autoscroll block error", e); }
-
-      dbg("script finished init");
-    } catch (err) {
-      console.error("[MODERNGOLD] uncaught error", err);
-    }
-  });
-})();
+// OPTIONAL: auto scroll mulai otomatis saat buka undangan
+// startAutoScroll();
