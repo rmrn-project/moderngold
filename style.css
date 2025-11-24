@@ -82,6 +82,6 @@
 
 #btnAutoScroll img { width: 50px; }
 
-/* ==== FIX: Prevent images keluar viewport ==== */ .details img, #rmrnFooter img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+/* ==== FIX: Prevent images keluar viewport ==== */ .details img, #rmrnFooter img { max-width: 40px; height: auto; display: block; margin: 0 auto; }
 
 /* ===== FOOTER ===== */ #rmrnFooter { margin: 40px 0; opacity: 0.6; font-size: 0.9em; }
