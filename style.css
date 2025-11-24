@@ -56,7 +56,20 @@
 
 @keyframes ucapanScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* ===== DETAILS SECTION ===== */ .details { margin: 50px 0; }
+/* ===== DETAILS SECTION ===== */
+
+.details-acara img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+
+ .details { margin: 50px 0; }
 
 .details h3 { font-family: 'Playfair Display', serif; font-size: 1.8em; color: #d4af37; margin-bottom: 20px; }
 
@@ -82,6 +95,14 @@
 
 #btnAutoScroll img { width: 50px; }
 
-/* ==== FIX: Prevent images keluar viewport ==== */ .details img, #rmrnFooter img { max-width: 40px; height: auto; display: block; margin: 0 auto; }
+      #rmrnbox{  
+width:150px;
+        height:150px;
+        margin:40px auto;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+}
 
 /* ===== FOOTER ===== */ #rmrnFooter { margin: 40px 0; opacity: 0.6; font-size: 0.9em; }
+
