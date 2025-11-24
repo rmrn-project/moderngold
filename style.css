@@ -111,25 +111,124 @@
 
 
 
-/* ===== UCAPAN MARQUEE ===== */ .ucapan-wrapper { margin: 50px 0; }
+/* ===== UCAPAN MARQUEE ===== */ 
 
-.ucapan-mask { overflow: hidden; mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent); }
+.ucapan-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    overflow: hidden !important;
+    margin: 35px 0;
+}
 
-.ucapan-marquee { display: flex; gap: 50px; animation: ucapanScroll 30s linear infinite; }
+/* Mask — pembatas viewport */
+.ucapan-mask {
+    width: 100%;
+    overflow: hidden;     /* FIX utama */
+    position: relative;
+}
 
-@keyframes ucapanScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+/* Marquee asli */
+.ucapan-marquee {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    width: max-content;
+    animation: slideKiri 35s linear infinite;
+    white-space: nowrap;
+    font-size : 16px;
+    font-style: italic;
+    font-family: "Cormorant Garamont", serif;
+}
 
-/* ===== DETAILS SECTION ===== */ .details { margin: 50px 0; }
+/* List ucapan kiri & clone */
+#listUcapan,
+#listUcapanClone {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+}
 
-.details h3 { font-family: 'Playfair Display', serif; font-size: 1.8em; color: #d4af37; margin-bottom: 20px; }
+/* Card */
+.ucapan-item {
+    flex: 0 0 300px;
+    background: rgba(255,255,255,0.14);
+    padding: 20px;
+    border-radius: 18px;
+}
 
-.bank img { width: 110px; margin-bottom: 10px; }
+/* Animasi */
+@keyframes slideKiri {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+
+/* PETIK OTOMATIS UNTUK UCAPAN */
+.ucapan-item p {
+    font-style: italic;
+    position: relative;
+    padding: 0 10px;
+}
+
+.ucapan-item p::before {
+    content: "“";
+    font-size: 22px;
+    margin-right: 3px;
+}
+
+.ucapan-item p::after {
+    content: "”";
+    font-size: 22px;
+    margin-left: 3px;
+}
+
+
+
+
+/* ===== DETAILS SECTION ===== */ 
+
+.details-acara {
+            text-align: center;
+            margin: 40px auto;
+            max-width: 500px;
+        }
+        .details-acara img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .details {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            padding: 38px 30px;
+            border-radius: 20px;
+            width: 92%;
+            max-width: 520px;
+            margin: 50px auto;
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        .details h3 {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            font-size: 1.9em;
+            margin-bottom: 20px;
+        }
+
 
 .norek { font-size: 1.4em; margin-top: 8px; color: #f5f0e6; }
 
 .btn-salin { margin-top: 10px; padding: 10px 20px; border: none; border-radius: 10px; background: #d4af37; color: #000; font-weight: bold; cursor: pointer; }
 
 .notif { opacity: 0; transition: 0.3s; color: #d4af37; margin-top: 5px; }
+
+
 
 /* ===== FORM UCAPAN ===== */ #nama, #doa { width: 100%; padding: 12px; border-radius: 10px; border: none; margin: 10px 0; background: #1a1a1a; color: #f5f0e6; font-size: 1em; }
 
