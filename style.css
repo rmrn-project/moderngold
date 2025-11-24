@@ -253,6 +253,22 @@ body {
     will-change: transform, left, top;
 }
 
+#btnAutoScroll{
+position:fixed;
+        top:20px;
+        right:20px;
+        width: 40px;
+        height: 40px;
+        padding:0;
+        border: none;
+        background: transparent;
+        color:white;
+        border:none;
+        font-size:16px;
+        z-index:999999;
+        cursor: pointer;
+        box-shadow: none;
+}
 
 
 
@@ -269,15 +285,6 @@ body {
     box-shadow: 0 0 25px rgba(0,0,0,0.6);
 }
 
-/* 2. Semua gambar di gallery slider */
-.slides img {
-    width: 82vw !important;      /* biar ga full 100% + gap keliatan */
-    max-width: 400px;
-    height: 85vh;                /* tinggi maksimal 85% layar */
-    object-fit: cover;
-    border-radius: 15px;
-    flex-shrink: 0;
-}
 
 /* 3. Logo bank & hadiah */
 .bank img,
