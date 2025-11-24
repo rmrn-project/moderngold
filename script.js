@@ -1,251 +1,107 @@
-        document.getElementById("year").textContent = new Date().getFullYear();
-
-        const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('show')), {threshold: 0.1});
-        document.querySelectorAll('.fade').forEach(el => observer.observe(el));
-
-        const audio = document.getElementById('bgm'); audio.volume = 0.3;
-audio.currentTime = 1;   
-    document.getElementById('musicBtn').onclick = () => {
-            if (audio.paused) {
-                audio.play().catch(() => {});
-                document.getElementById('playIcon').style.display = 'none';
-                document.getElementById('pauseIcon').style.display = 'block';
-            } else {
-                audio.pause();
-                document.getElementById('playIcon').style.display = 'block';
-                document.getElementById('pauseIcon').style.display = 'none';
-            }
-        };
+// === TAHUN OTOMATIS ===
+document.getElementById("year").textContent = new Date().getFullYear();
 
 
-//FUNGSI DRAG PLAY BUTTON
+// === ANIMASI FADE ON SCROLL ===
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(ent => {
+    if (ent.isIntersecting) ent.target.classList.add("show");
+  });
+}, { threshold: 0.1 });
 
-        const btn = document.getElementById("musicBtn");
+document.querySelectorAll(".fade").forEach(el => observer.observe(el));
+
+
+// === MUSIC CONTROL ===
+const audio = document.getElementById("bgm");
+audio.volume = 0.3;
+audio.currentTime = 1;
+
+document.getElementById("musicBtn").onclick = () => {
+  const playIcon = document.getElementById("playIcon");
+  const pauseIcon = document.getElementById("pauseIcon");
+
+  if (audio.paused) {
+    audio.play().catch(() => {});
+    playIcon.style.display = "none";
+    pauseIcon.style.display = "block";
+  } else {
+    audio.pause();
+    playIcon.style.display = "block";
+    pauseIcon.style.display = "none";
+  }
+};
+
+
+// === DRAG MUSIC BUTTON ===
+const btn = document.getElementById("musicBtn");
 let isDragging = false, offsetX = 0, offsetY = 0;
 
 function clampPosition(x, y) {
-    const r = btn.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    // Batas minimum dan maksimum
-    const minX = 0;
-    const minY = 0;
-    const maxX = vw - r.width;
-    const maxY = vh - r.height;
-
-    // Kembalikan nilai yang sudah dikunci agar tidak keluar
-    return {
-        x: Math.max(minX, Math.min(x, maxX)),
-        y: Math.max(minY, Math.min(y, maxY))
-    };
+  const r = btn.getBoundingClientRect();
+  return {
+    x: Math.max(0, Math.min(x, window.innerWidth - r.width)),
+    y: Math.max(0, Math.min(y, window.innerHeight - r.height))
+  };
 }
 
-btn.addEventListener("mousedown", e => {
-    isDragging = true;
-    const r = btn.getBoundingClientRect();
-    offsetX = e.clientX - r.left;
-    offsetY = e.clientY - r.top;
-});
+function startDrag(e) {
+  isDragging = true;
+  const r = btn.getBoundingClientRect();
+  const evt = e.touches ? e.touches[0] : e;
+  offsetX = evt.clientX - r.left;
+  offsetY = evt.clientY - r.top;
+}
 
-btn.addEventListener("touchstart", e => {
-    isDragging = true;
-    const r = btn.getBoundingClientRect();
-    offsetX = e.touches[0].clientX - r.left;
-    offsetY = e.touches[0].clientY - r.top;
-});
+btn.addEventListener("mousedown", startDrag);
+btn.addEventListener("touchstart", startDrag);
 
-document.addEventListener("mousemove", e => {
-    if (isDragging) {
-        let { x, y } = clampPosition(e.clientX - offsetX, e.clientY - offsetY);
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
-    }
-});
+function onDrag(e) {
+  if (!isDragging) return;
+  const evt = e.touches ? e.touches[0] : e;
+  const { x, y } = clampPosition(evt.clientX - offsetX, evt.clientY - offsetY);
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+}
 
-document.addEventListener("touchmove", e => {
-    if (isDragging) {
-        let { x, y } = clampPosition(e.touches[0].clientX - offsetX, e.touches[0].clientY - offsetY);
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
-    }
-});
+document.addEventListener("mousemove", onDrag);
+document.addEventListener("touchmove", onDrag);
 
 document.addEventListener("mouseup", () => isDragging = false);
 document.addEventListener("touchend", () => isDragging = false);
 
 
-
-
-// FUNGSI COPY REK
-
-        function copyRek(id) {
-            navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
-                const n = document.getElementById('notif' + id.slice(-1));
-                n.style.display = "block";
-                setTimeout(() => n.style.display = "none", 1500);
-            });
-        }
-
-    <!-- FIREBASE YANG PASTI JALAN 100% (v9 modular - paling stabil) -->
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-  const app = initializeApp({
-    apiKey: "AIzaSyCBNM5NpBwHOwyla5LcBZId7SCUIBgthnw",
-    authDomain: "ertiawed.firebaseapp.com",
-    projectId: "ertiawed",
-    storageBucket: "ertiawed.firebasestorage.app",
-    messagingSenderId: "580476029012",
-    appId: "1:580476029012:web:266389781d60b1bad4c5c1"
+// === COPY REKENING ===
+function copyRek(id) {
+  const val = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(val).then(() => {
+    const notif = document.getElementById("notif" + id.slice(-1));
+    notif.style.display = "block";
+    setTimeout(() => (notif.style.display = "none"), 1500);
   });
-
-  const db = getFirestore(app);
-  const col = collection(db, "ucapan");
-  const list = document.getElementById("listUcapan");
-  const btn = document.getElementById("kirimUcapan");
+}
 
 
-
-
-
-
-  // Render ucapan — DIBUAT LEBIH CANTIK & SESUAI SLIDER
-  const render = (data) => {
-    const d = document.createElement("div");
-    d.className = "ucapan-item";
-    const t = data.waktu 
-      ? new Date(data.waktu.seconds*1000).toLocaleString("id-ID", {
-          dateStyle: "long",
-          timeStyle: "short"
-        }) 
-      : "Baru saja";
-
-    d.innerHTML = `
-      <strong style="color:#d4af37;font-size:1.15em;display:block;margin-bottom:6px;">${data.nama}</strong>
-      <small style="color:#ccc;font-size:0.88em;display:block;margin-bottom:10px;opacity:0.9;">${t}</small>
-      <p style="margin:0;line-height:1.75;font-size:0.98em;opacity:0.95;">${data.doa.replace(/\n/g,"<br>")}</p>
-    `;
-    return d;
-  };
-
-
-
-  // Real-time listener — DIPERBAIKI BIAR HORIZONTAL & SLIDE SATU-SATU
-  onSnapshot(query(col, orderBy("waktu","desc")), snap => {
-    const list = document.getElementById("listUcapan");
-    const clone = document.getElementById("listUcapanClone");
-
-    list.innerHTML = "";
-    clone.innerHTML = "";
-
-    if (snap.empty) {
-      const kosong = `<div class="ucapan-item" style="width:300px;text-align:center;color:#aaa;padding:30px 0;font-style:italic;">Belum ada ucapan nih...</div>`;
-      list.innerHTML = kosong;
-      clone.innerHTML = kosong;
-      return;
-    }
-
-    snap.forEach(doc => {
-      const item = render(doc.data());
-      list.appendChild(item);
-      clone.appendChild(item.cloneNode(true)); // clone biar loop mulus
-    });
-  });
-
-
-
-  // KIRIM UCAPAN — SUPER CEPET TANPA FOTO
-  btn.onclick = async () => {
-    if (localStorage.getItem("ucapanSandiErtia2025")) {
-      alert("Kamu sudah mengirimkan ucapan sebelumnya. Terima kasih banyak ya ❤️");
-      return;
-    }
-
-    const nama = document.getElementById("nama").value.trim();
-    const doa = document.getElementById("doa").value.trim();
-
-    if (!nama || !doa) {
-      alert("Nama dan ucapan wajib diisi ya");
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = "Mengirim...";
-
-    try {
-      await addDoc(col, {
-        nama: nama,
-        doa: doa,
-        waktu: serverTimestamp()
-      });
-
-      localStorage.setItem("ucapanSandiErtia2025", "yes");
-
-      document.getElementById("nama").value = "";
-      document.getElementById("doa").value = "";
-
-      alert("Yeay! Ucapanmu sudah tersimpan ❤️");
-      btn.textContent = "Terkirim";
-      btn.style.background = "#90ee90";
-      btn.style.color = "#000";
-
-      // Langsung muncul di paling atas
-      list.prepend(render({ nama, doa, waktu: {seconds: Date.now()/1000} }));
-
-    } catch(e) {
-      alert("Gagal kirim ucapan. Coba lagi ya");
-      btn.disabled = false;
-      btn.textContent = "Kirim Ucapan";
-    }
-  };
-
-  // Sudah pernah kirim
-  if (localStorage.getItem("ucapanSandiErtia2025")) {
-    btn.disabled = true;
-    btn.textContent = "Terkirim";
-    btn.style.background = "#90ee90";
-    btn.style.color = "#000";
-  }
-
-
-
+// === AUTO SCROLL ===
 let autoScroll = null;
-let userTouching = false;
 
-// Mulai auto scroll
 function startAutoScroll() {
-    if (autoScroll) return;
-
-    autoScroll = setInterval(() => {
-        window.scrollBy(0, 1); // kecepatan scroll
-    }, 20);
-
+  if (!autoScroll) {
+    autoScroll = setInterval(() => window.scrollBy(0, 1), 20);
     document.getElementById("btnAutoScroll").style.display = "none";
+  }
 }
 
-// Stop auto scroll
 function stopAutoScroll() {
-    clearInterval(autoScroll);
-    autoScroll = null;
+  clearInterval(autoScroll);
+  autoScroll = null;
 }
 
-// Jika user menyentuh layar → stop auto scroll
 document.addEventListener("touchstart", () => {
-    userTouching = true;
-    stopAutoScroll();
-    document.getElementById("btnAutoScroll").style.display = "block";
+  stopAutoScroll();
+  document.getElementById("btnAutoScroll").style.display = "block";
 });
 
-document.addEventListener("touchend", () => {
-    userTouching = false;
-});
+document.getElementById("btnAutoScroll").addEventListener("click", startAutoScroll);
 
-// Klik tombol untuk lanjut scroll
-document.getElementById("btnAutoScroll").addEventListener("click", () => {
-    startAutoScroll();
-});
-
-// OPTIONAL: auto scroll mulai otomatis saat buka undangan
-// startAutoScroll();
+// startAutoScroll(); // opsional auto mulai
