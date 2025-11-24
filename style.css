@@ -280,3 +280,244 @@
     font-size: 22px;
     margin-left: 3px;
 }
+
+
+
+/* ============================
+   🌟 PREMIUM GOLD WEDDING CSS
+   Full Version — Entire Section
+   ============================ */
+
+/* ===== HEADER ===== */
+.header-section {
+    margin: 60px 0 80px;
+    text-align: center;
+}
+
+.header-section .symbol-top {
+    font-size: 1.4em;
+    color: #d4af37;
+    opacity: 0.7;
+    letter-spacing: 8px;
+    margin-bottom: 20px;
+}
+
+.header-section h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2em;
+    color: #d4af37;
+    margin: 0 0 20px;
+    letter-spacing: 2px;
+}
+
+.header-section .subtitle {
+    font-size: 1.35em;
+    color: #f0e6d2;
+    font-style: italic;
+    max-width: 90%;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.header-section .symbol-bottom {
+    margin-top: 30px;
+    color: #d4af37;
+    opacity: 0.5;
+    font-size: 1.1em;
+}
+
+/* ===== COUPLE NAMES ===== */
+.couple-names {
+    margin: 70px 0;
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.couple-names h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.6em;
+    background: linear-gradient(45deg, #f4e4bc, #d4af37, #b8973a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 
+        0 2px 6px rgba(0,0,0,0.3),
+        0 0 10px rgba(212,175,55,0.4);
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.couple-names p {
+    font-size: 1.1em;
+    color: #e8e0d0;
+    margin: 12px 0 0;
+    line-height: 1.6;
+}
+
+/* & BIG SYMBOL */
+.couple-names .and-sign {
+    position: relative;
+    margin: 40px 0;
+    font-size: 4.5em;
+    color: #d4af37;
+    font-family: 'Playfair Display', serif;
+}
+
+.couple-names .and-sign .top-decor,
+.couple-names .and-sign .bottom-decor {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.35em;
+    color: #d4af37;
+    opacity: 0.6;
+}
+
+.couple-names .and-sign .top-decor {
+    top: -25px;
+}
+
+.couple-names .and-sign .bottom-decor {
+    bottom: -25px;
+}
+
+/* ===== GALLERY ===== */
+.gallery {
+    width: 100%;
+    max-width: 550px;
+    margin: 60px auto;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 2px solid rgba(212,175,55,0.4);
+    box-shadow: 0 0 25px rgba(212,175,55,0.15);
+}
+
+.slides {
+    display: flex;
+    width: 500%;
+    animation: slideShow 18s infinite;
+}
+
+.gallery img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+}
+
+@keyframes slideShow {
+    0%, 20% { transform: translateX(0); }
+    25%, 40% { transform: translateX(-100%); }
+    45%, 60% { transform: translateX(-200%); }
+    65%, 80% { transform: translateX(-300%); }
+    85%, 100% { transform: translateX(-400%); }
+}
+
+/* ===== UCAPAN RUNNING TEXT ===== */
+.ucapan-wrapper {
+    margin: 60px 0;
+}
+
+.ucapan-mask {
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+
+.ucapan-marquee {
+    display: flex;
+    white-space: nowrap;
+    gap: 50px;
+    animation: marqueeRun 20s linear infinite;
+}
+
+#listUcapan,
+#listUcapanClone {
+    display: flex;
+    gap: 50px;
+}
+
+@keyframes marqueeRun {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+/* ===== GAMBAR ACARA ===== */
+.details-acara img {
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto 0;
+    display: block;
+}
+
+/* ===== CARD DETAILS ===== */
+.details {
+    background: rgba(255,255,255,0.02);
+    padding: 25px;
+    margin: 45px auto;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 15px;
+    border: 1px solid rgba(212,175,55,0.3);
+    box-shadow: 0 0 15px rgba(212,175,55,0.15);
+    text-align: center;
+}
+
+.details h3 {
+    color: #d4af37;
+    font-size: 1.6em;
+    margin-bottom: 15px;
+}
+
+.btn-salin {
+    background: #d4af37;
+    color: #000;
+    padding: 8px 20px;
+    border-radius: 40px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.notif {
+    opacity: 0;
+    color: #d4af37;
+    font-size: 0.9em;
+    transition: 0.3s;
+}
+
+.btn-kirim {
+    background: #d4af37;
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ===== MUSIC BUTTON ===== */
+#musicBtn {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 15px rgba(212,175,55,0.3);
+    cursor: pointer;
+    z-index: 999999;
+}
+
+#musicBtn svg {
+    width: 30px;
+    height: 30px;
+    fill: #d4af37;
+}
