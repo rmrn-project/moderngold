@@ -139,7 +139,8 @@ textarea {height:110px; resize:none;}
 }
 
 /* MARQUEE UCAPAN */
-.ucapan-wrapper {display:flex; justify-content:center; align-items:center; width:100vw; overflow:hidden !important; margin:35px 0;}
+.ucapan-wrapper {display:flex; justify-content:center; align-items:center; width:100vw; overflow-x:hidden !important;
+overflow-y:visible !important; margin:35px 0;}
 .ucapan-mask {width:100%; overflow:hidden; position:relative;}
 .ucapan-marquee {display:flex; flex-wrap:nowrap; gap:20px; width:max-content; animation:slideKiri 35s linear infinite; white-space:nowrap;}
 #listUcapan, #listUcapanClone {display:flex; flex-wrap:nowrap; gap:20px;}
