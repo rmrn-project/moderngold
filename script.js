@@ -84,24 +84,37 @@ function copyRek(id) {
 
 // === AUTO SCROLL ===
 let autoScroll = null;
+let userTouching = false;
 
+// Mulai auto scroll
 function startAutoScroll() {
-  if (!autoScroll) {
-    autoScroll = setInterval(() => window.scrollBy(0, 1), 20);
+    if (autoScroll) return;
+
+    autoScroll = setInterval(() => {
+        window.scrollBy(0, 1); // kecepatan scroll
+    }, 20);
+
     document.getElementById("btnAutoScroll").style.display = "none";
-  }
 }
 
+// Stop auto scroll
 function stopAutoScroll() {
-  clearInterval(autoScroll);
-  autoScroll = null;
+    clearInterval(autoScroll);
+    autoScroll = null;
 }
 
+// Jika user menyentuh layar → stop auto scroll
 document.addEventListener("touchstart", () => {
-  stopAutoScroll();
-  document.getElementById("btnAutoScroll").style.display = "block";
+    userTouching = true;
+    stopAutoScroll();
+    document.getElementById("btnAutoScroll").style.display = "block";
 });
 
-document.getElementById("btnAutoScroll").addEventListener("click", startAutoScroll);
+document.addEventListener("touchend", () => {
+    userTouching = false;
+});
 
-// startAutoScroll(); // opsional auto mulai
+// Klik tombol untuk lanjut scroll
+document.getElementById("btnAutoScroll").addEventListener("click", () => {
+    startAutoScroll();
+});
