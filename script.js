@@ -1,9 +1,5 @@
 
 // ═══════════════════════════════════════════════════════════
-// JS LENGKAP UNDANGAN PREMIUM GOLD — 100% JALAN SEMUA HP
-// ═══════════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════
 // JS TERPISAH — MUSIC BUTTON DRAG + PLAY/PAUSE STABIL DI HP
 // ═══════════════════════════════════════════════════════════
 
@@ -23,69 +19,86 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE + DRAG ===
     const musicBtn = document.getElementById("musicBtn");
-    const audio = document.getElementById("bgm");
+const audio = document.getElementById("bgm");
 
-    if (musicBtn && audio) {
-        audio.volume = 0.3;
-        audio.currentTime = 1;
+if (musicBtn && audio) {
+    audio.volume = 0.3;
+    audio.currentTime = 1;
 
-        // Klik untuk play/pause
-        musicBtn.addEventListener("click", () => {
-            if (audio.paused) {
-                audio.play().catch(() => {});
-                document.getElementById('playIcon').style.display = 'none';
-                document.getElementById('pauseIcon').style.display = 'block';
-            } else {
-                audio.pause();
-                document.getElementById('playIcon').style.display = 'block';
-                document.getElementById('pauseIcon').style.display = 'none';
-            }
-        });
+    let isDragging = false, offsetX = 0, offsetY = 0;
+    let dragThreshold = 5; // ambang minimal pergerakan agar dianggap drag
 
-        // Drag button
-        let isDragging = false, offsetX = 0, offsetY = 0;
-
-        function clampPosition(x, y) {
-            const rect = musicBtn.getBoundingClientRect();
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
-            return {
-                x: Math.max(0, Math.min(x, vw - rect.width)),
-                y: Math.max(0, Math.min(y, vh - rect.height))
-            };
+    // Klik untuk play/pause
+    function toggleMusic() {
+        if (audio.paused) {
+            audio.play().catch(() => {});
+            document.getElementById('playIcon').style.display = 'none';
+            document.getElementById('pauseIcon').style.display = 'block';
+        } else {
+            audio.pause();
+            document.getElementById('playIcon').style.display = 'block';
+            document.getElementById('pauseIcon').style.display = 'none';
         }
-
-        function startDrag(e) {
-            isDragging = true;
-            const rect = musicBtn.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            offsetX = clientX - rect.left;
-            offsetY = clientY - rect.top;
-            e.preventDefault();
-        }
-
-        function moveDrag(e) {
-            if (!isDragging) return;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            let { x, y } = clampPosition(clientX - offsetX, clientY - offsetY);
-            musicBtn.style.left = x + "px";
-            musicBtn.style.top = y + "px";
-            musicBtn.style.right = "auto";
-            musicBtn.style.bottom = "auto";
-            e.preventDefault();
-        }
-
-        function stopDrag() { isDragging = false; }
-
-        musicBtn.addEventListener("mousedown", startDrag);
-        musicBtn.addEventListener("touchstart", startDrag, { passive: false });
-        document.addEventListener("mousemove", moveDrag);
-        document.addEventListener("touchmove", moveDrag, { passive: false });
-        document.addEventListener("mouseup", stopDrag);
-        document.addEventListener("touchend", stopDrag);
     }
+
+    function startDrag(e) {
+        isDragging = false;
+        const rect = musicBtn.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+        musicBtn.dataset.startX = clientX;
+        musicBtn.dataset.startY = clientY;
+        e.preventDefault();
+    }
+
+    function moveDrag(e) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        const startX = parseFloat(musicBtn.dataset.startX);
+        const startY = parseFloat(musicBtn.dataset.startY);
+
+        if (!isDragging) {
+            if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
+                isDragging = true;
+            } else {
+                return; // belum cukup bergerak, bukan drag
+            }
+        }
+
+        let x = clientX - offsetX;
+        let y = clientY - offsetY;
+
+        // clamp posisi supaya tidak keluar viewport
+        const rect = musicBtn.getBoundingClientRect();
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        x = Math.max(0, Math.min(x, vw - rect.width));
+        y = Math.max(0, Math.min(y, vh - rect.height));
+
+        musicBtn.style.left = x + "px";
+        musicBtn.style.top = y + "px";
+        musicBtn.style.right = "auto";
+        musicBtn.style.bottom = "auto";
+        e.preventDefault();
+    }
+
+    function stopDrag(e) {
+        if (!isDragging) {
+            toggleMusic(); // jika cuma tap, jalankan play/pause
+        }
+        isDragging = false;
+    }
+
+    musicBtn.addEventListener("mousedown", startDrag);
+    musicBtn.addEventListener("touchstart", startDrag, { passive: false });
+    document.addEventListener("mousemove", moveDrag);
+    document.addEventListener("touchmove", moveDrag, { passive: false });
+    document.addEventListener("mouseup", stopDrag);
+    document.addEventListener("touchend", stopDrag);
+}
 
     
     // === 4. AUTO SCROLL + TOMBOL PANAH BAWAH ===
