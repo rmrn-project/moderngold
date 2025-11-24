@@ -21,37 +21,19 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".fade").forEach(el => observer.observe(el));
 
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE + DRAG ===
-    const audio = document.getElementById("bgm");
-    const musicBtn = document.getElementById("musicBtn");
-    const playIcon = document.getElementById("playIcon");
-    const pauseIcon = document.getElementById("pauseIcon");
-
-    if (audio && musicBtn) {
-        audio.volume = 0.4;
-        audio.preload = "auto";
-
-        // Play otomatis saat user interaksi pertama (bypass autoplay block)
-        function unlockAudio() {
-            audio.play().catch(() => {});
-            document.body.removeEventListener("touchstart", unlockAudio);
-            document.body.removeEventListener("click", unlockAudio);
-        }
-        document.body.addEventListener("touchstart", unlockAudio);
-        document.body.addEventListener("click", unlockAudio);
-
-        // Klik tombol
-        musicBtn.onclick = function () {
+    const audio = document.getElementById('bgm'); audio.volume = 0.3;
+audio.currentTime = 1;   
+    document.getElementById('musicBtn').onclick = () => {
             if (audio.paused) {
                 audio.play().catch(() => {});
-                playIcon.style.display = "none";
-                pauseIcon.style.display = "block";
+                document.getElementById('playIcon').style.display = 'none';
+                document.getElementById('pauseIcon').style.display = 'block';
             } else {
                 audio.pause();
-                playIcon.style.display = "block";
-                pauseIcon.style.display = "none";
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
             }
         };
-    }
 
     // === DRAG MUSIC BUTTON (bisa digeser kemana saja) ===
     if (musicBtn) {
