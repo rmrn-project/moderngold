@@ -102,14 +102,13 @@ body {
 .sep-top { top: -25px; } .sep-bottom { bottom: -25px; }
 
 /* ===== GALLERY ===== */
-/* ===== GALLERY — FIX KHUSUS YANG SUDAH ADA JS DUPLIKAT ===== */
+/* ===== GALLERY — VERSI FINAL (4-5 FOTO SAJA, PASTI JALAN 100%) ===== */
 .gallery {
     width: 90%;
     max-width: 420px;
     margin: 70px auto;
     overflow: hidden;
     border-radius: 30px;
-    position: relative;
     box-shadow:
         0 15px 40px rgba(0,0,0,0.6),
         0 0 20px rgba(212,175,55,0.6),
@@ -119,32 +118,29 @@ body {
 }
 
 @keyframes goldPulse {
-    0%, 100% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5), 0 0 35px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15); }
-    50%      { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 25px rgba(212,175,55,0.7), 0 0 55px rgba(212,175,55,0.45), 0 0 90px rgba(212,175,55,0.25); }
+    0%,100% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5), 0 0 35px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15); }
+    50%     { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 28px rgba(212,175,55,0.8), 0 0 55px rgba(212,175,55,0.5), 0 0 90px rgba(212,175,55,0.3); }
 }
 
 .slides {
     display: flex;
-    width: max-content !important;     /* KUNCI UTAMA */
-    animation: slideShow 24s linear infinite;
-    gap: 0;                            /* biar rapet */
+    animation: geser 20s linear infinite;
 }
 
 .slides img {
-    width: 90vw;               /* 1 foto = hampir full layar */
+    width: 90vw;           /* 1 foto = hampir full layar */
     max-width: 400px;
     height: 85vh;
-    max-height: 580px;
+    max-height: 600px;
     object-fit: cover;
     flex-shrink: 0;
     border-radius: 30px;
-    display: block;
 }
 
-/* Animasi super mulus — karena JS udah duplikat */
-@keyframes slideShow {
+/* Animasi paling aman di dunia untuk gallery kecil */
+@keyframes geser {
     0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }   /* -50% karena total konten = 200% (asli + clone) */
+    100% { transform: translateX(-50%); }   /* karena JS udah clone jadi total 200% */
 }
 
 /* ===== UCAPAN MARQUEE ===== */
