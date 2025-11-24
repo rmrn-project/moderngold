@@ -13,24 +13,19 @@ document.querySelectorAll(".fade").forEach(el => observer.observe(el));
 
 
 // === MUSIC CONTROL ===
-const audio = document.getElementById("bgm");
-audio.volume = 0.3;
-audio.currentTime = 1;
-
-document.getElementById("musicBtn").onclick = () => {
-  const playIcon = document.getElementById("playIcon");
-  const pauseIcon = document.getElementById("pauseIcon");
-
-  if (audio.paused) {
-    audio.play().catch(() => {});
-    playIcon.style.display = "none";
-    pauseIcon.style.display = "block";
-  } else {
-    audio.pause();
-    playIcon.style.display = "block";
-    pauseIcon.style.display = "none";
-  }
-};
+const audio = document.getElementById('bgm'); audio.volume = 0.3;
+audio.currentTime = 1;   
+    document.getElementById('musicBtn').onclick = () => {
+            if (audio.paused) {
+                audio.play().catch(() => {});
+                document.getElementById('playIcon').style.display = 'none';
+                document.getElementById('pauseIcon').style.display = 'block';
+            } else {
+                audio.pause();
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
+            }
+        };
 
 
 // === DRAG MUSIC BUTTON ===
