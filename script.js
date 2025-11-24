@@ -19,27 +19,80 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE + DRAG ===
 
-    const musicBtn = document.getElementById("musicBtn");
-    const audio = document.getElementById("bgm");
-    const playIcon = document.getElementById("playIcon");
-    const pauseIcon = document.getElementById("pauseIcon");
-
-    if (musicBtn && audio) {
-        audio.volume = 0.3;
-        audio.currentTime = 1;
-
-        musicBtn.addEventListener("click", () => {
+    const audio = document.getElementById('bgm'); audio.volume = 0.3;
+audio.currentTime = 1;   
+    document.getElementById('musicBtn').onclick = () => {
             if (audio.paused) {
                 audio.play().catch(() => {});
-                playIcon.style.display = "none";
-                pauseIcon.style.display = "block";
+                document.getElementById('playIcon').style.display = 'none';
+                document.getElementById('pauseIcon').style.display = 'block';
             } else {
                 audio.pause();
-                playIcon.style.display = "block";
-                pauseIcon.style.display = "none";
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
             }
-        });
+        };
+
+
+//FUNGSI DRAG PLAY BUTTON
+
+        const btn = document.getElementById("musicBtn");
+let isDragging = false, offsetX = 0, offsetY = 0;
+
+function clampPosition(x, y) {
+    const r = btn.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // Batas minimum dan maksimum
+    const minX = 0;
+    const minY = 0;
+    const maxX = vw - r.width;
+    const maxY = vh - r.height;
+
+    // Kembalikan nilai yang sudah dikunci agar tidak keluar
+    return {
+        x: Math.max(minX, Math.min(x, maxX)),
+        y: Math.max(minY, Math.min(y, maxY))
+    };
+}
+
+btn.addEventListener("mousedown", e => {
+    isDragging = true;
+    const r = btn.getBoundingClientRect();
+    offsetX = e.clientX - r.left;
+    offsetY = e.clientY - r.top;
+});
+
+btn.addEventListener("touchstart", e => {
+    isDragging = true;
+    const r = btn.getBoundingClientRect();
+    offsetX = e.touches[0].clientX - r.left;
+    offsetY = e.touches[0].clientY - r.top;
+});
+
+document.addEventListener("mousemove", e => {
+    if (isDragging) {
+        let { x, y } = clampPosition(e.clientX - offsetX, e.clientY - offsetY);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
     }
+});
+
+document.addEventListener("touchmove", e => {
+    if (isDragging) {
+        let { x, y } = clampPosition(e.touches[0].clientX - offsetX, e.touches[0].clientY - offsetY);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
+    }
+});
+
+document.addEventListener("mouseup", () => isDragging = false);
+document.addEventListener("touchend", () => isDragging = false);
+
+
+
+
 
 });
 
