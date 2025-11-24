@@ -102,45 +102,50 @@ body {
 .sep-top { top: -25px; } .sep-bottom { bottom: -25px; }
 
 /* ===== GALLERY ===== */
+/* ===== GALLERY — FIX KHUSUS YANG SUDAH ADA JS DUPLIKAT ===== */
 .gallery {
-            width: 90%;
-            max-width: 400px;
-            margin: 70px auto;
-            overflow: hidden;
-            border-radius: 30px;
-            box-shadow:
-                0 15px 40px rgba(0,0,0,0.6),
-                0 0 20px rgba(212,175,55,0.6),
-                0 0 40px rgba(212,175,55,0.4),
-                0 0 70px rgba(212,175,55,0.2);
-            animation: goldPulse 6s infinite ease-in-out;
-        }
-        @keyframes goldPulse {
-            0% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5), 0 0 35px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15); }
-            50% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 25px rgba(212,175,55,0.7), 0 0 55px rgba(212,175,55,0.45), 0 0 90px rgba(212,175,55,0.25); }
-            100% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5), 0 0 35px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15); }
-        }
-        .slides {
-            display: flex;
-            width: 500%;
-            animation: slide 20s infinite;
-            transition: transform 0.5s ease;
-        }
-        .slides img {
-            width: 20%;
-            height: auto;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        @keyframes slide {
-            0%, 16%   { transform: translateX(0%); }
-            20%, 36%  { transform: translateX(-20%); }
-            40%, 56%  { transform: translateX(-40%); }
-            60%, 76%  { transform: translateX(-60%); }
-            80%, 96%  { transform: translateX(-80%); }
-            100%      { transform: translateX(0%); }
-        }
+    width: 90%;
+    max-width: 420px;
+    margin: 70px auto;
+    overflow: hidden;
+    border-radius: 30px;
+    position: relative;
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.6),
+        0 0 20px rgba(212,175,55,0.6),
+        0 0 40px rgba(212,175,55,0.4),
+        0 0 70px rgba(212,175,55,0.2);
+    animation: goldPulse 6s infinite ease-in-out;
+}
+
+@keyframes goldPulse {
+    0%, 100% { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 18px rgba(212,175,55,0.5), 0 0 35px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.15); }
+    50%      { box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 25px rgba(212,175,55,0.7), 0 0 55px rgba(212,175,55,0.45), 0 0 90px rgba(212,175,55,0.25); }
+}
+
+.slides {
+    display: flex;
+    width: max-content !important;     /* KUNCI UTAMA */
+    animation: slideShow 24s linear infinite;
+    gap: 0;                            /* biar rapet */
+}
+
+.slides img {
+    width: 90vw;               /* 1 foto = hampir full layar */
+    max-width: 400px;
+    height: 85vh;
+    max-height: 580px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 30px;
+    display: block;
+}
+
+/* Animasi super mulus — karena JS udah duplikat */
+@keyframes slideShow {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }   /* -50% karena total konten = 200% (asli + clone) */
+}
 
 /* ===== UCAPAN MARQUEE ===== */
 /* Wrapper utama */
