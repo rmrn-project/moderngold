@@ -3,7 +3,11 @@
 // JS LENGKAP UNDANGAN PREMIUM GOLD — 100% JALAN SEMUA HP
 // ═══════════════════════════════════════════════════════════
 
-document.addEventListener("DOMContentLoaded", function () {
+// ═══════════════════════════════════════════════════════════
+// JS TERPISAH — MUSIC BUTTON DRAG + PLAY/PAUSE STABIL DI HP
+// ═══════════════════════════════════════════════════════════
+
+document.addEventListener("DOMContentLoaded", function() {
 
     // === 1. TAHUN OTOMATIS ===
     const yearEl = document.getElementById("year");
@@ -12,18 +16,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // === 2. FADE ON SCROLL (semua elemen .fade) ===
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-            }
+            if (entry.isIntersecting) entry.target.classList.add("show");
         });
     }, { threshold: 0.15 });
-
     document.querySelectorAll(".fade").forEach(el => observer.observe(el));
 
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE + DRAG ===
-    const audio = document.getElementById('bgm'); audio.volume = 0.3;
-audio.currentTime = 1;   
-    document.getElementById('musicBtn').onclick = () => {
+    const musicBtn = document.getElementById("musicBtn");
+    const audio = document.getElementById("bgm");
+
+    if (musicBtn && audio) {
+        audio.volume = 0.3;
+        audio.currentTime = 1;
+
+        // Klik untuk play/pause
+        musicBtn.addEventListener("click", () => {
             if (audio.paused) {
                 audio.play().catch(() => {});
                 document.getElementById('playIcon').style.display = 'none';
@@ -33,53 +40,54 @@ audio.currentTime = 1;
                 document.getElementById('playIcon').style.display = 'block';
                 document.getElementById('pauseIcon').style.display = 'none';
             }
-        };
+        });
 
-    // === DRAG MUSIC BUTTON (bisa digeser kemana saja) ===
-    if (musicBtn) {
-        let isDragging = false;
-        let offsetX = 0, offsetY = 0;
+        // Drag button
+        let isDragging = false, offsetX = 0, offsetY = 0;
 
-        const startDrag = (e) => {
-            e.preventDefault();
+        function clampPosition(x, y) {
+            const rect = musicBtn.getBoundingClientRect();
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            return {
+                x: Math.max(0, Math.min(x, vw - rect.width)),
+                y: Math.max(0, Math.min(y, vh - rect.height))
+            };
+        }
+
+        function startDrag(e) {
             isDragging = true;
             const rect = musicBtn.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             offsetX = clientX - rect.left;
             offsetY = clientY - rect.top;
-        };
-
-        const moveDrag = (e) => {
-            if (!isDragging) return;
             e.preventDefault();
-            let x = (e.touches ? e.touches[0].clientX : e.clientX) - offsetX;
-            let y = (e.touches ? e.touches[0].clientY : e.clientY) - offsetY;
+        }
 
-            const maxX = window.innerWidth - musicBtn.offsetWidth;
-            const maxY = window.innerHeight - musicBtn.offsetHeight;
-
-            x = Math.max(10, Math.min(x, maxX - 10));
-            y = Math.max(10, Math.min(y, maxY - 10));
-
+        function moveDrag(e) {
+            if (!isDragging) return;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            let { x, y } = clampPosition(clientX - offsetX, clientY - offsetY);
             musicBtn.style.left = x + "px";
             musicBtn.style.top = y + "px";
             musicBtn.style.right = "auto";
             musicBtn.style.bottom = "auto";
-        };
+            e.preventDefault();
+        }
 
-        const stopDrag = () => isDragging = false;
+        function stopDrag() { isDragging = false; }
 
         musicBtn.addEventListener("mousedown", startDrag);
         musicBtn.addEventListener("touchstart", startDrag, { passive: false });
-
         document.addEventListener("mousemove", moveDrag);
         document.addEventListener("touchmove", moveDrag, { passive: false });
-
         document.addEventListener("mouseup", stopDrag);
         document.addEventListener("touchend", stopDrag);
     }
 
+    
     // === 4. AUTO SCROLL + TOMBOL PANAH BAWAH ===
     let autoScroll = null;
     const btnAuto = document.getElementById("btnAutoScroll");
