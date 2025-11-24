@@ -154,3 +154,55 @@ body {
     border: none;
 }
 #btnAutoScroll img { width: 50px; height: auto; }
+
+
+
+
+/* ==== FIX GAMBAR KEPOTONG — WAJIB DI BAWAH SEMUA CSS ==== */
+
+/* 1. Foto utama couple */
+.couple-photo {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;           /* biar ga molor */
+    aspect-ratio: 3 / 4;         /* rasio potrait elegan, sesuain kalo mau */
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+/* 2. Semua gambar di gallery slider */
+.slides img {
+    width: 82vw !important;      /* biar ga full 100% + gap keliatan */
+    max-width: 400px;
+    height: 85vh;                /* tinggi maksimal 85% layar */
+    object-fit: cover;
+    border-radius: 15px;
+    flex-shrink: 0;
+}
+
+/* 3. Logo bank & hadiah */
+.bank img,
+.details img,
+#rmrnBox img,
+#rmrnFooter img {
+    width: 80% !important;
+    max-width: 280px !important;   /* batas maksimal biar ga gede banget di tablet */
+    height: auto !important;
+    object-fit: contain;
+    display: block;
+    margin: 20px auto !important;
+}
+
+/* 4. Gambar di footer (kalo ada yang full width) */
+#rmrnFooter img {
+    width: 90% !important;
+    max-width: 500px !important;
+}
+
+/* 5. Semua img lain yang bandel */
+img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+}
