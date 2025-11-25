@@ -379,3 +379,9 @@
 }
 
 
+
+.btn-maps:hover {
+    text-decoration: none;   /* tetap tanpa garis bawah */
+    color: #e7c766;          /* opsional, emas lebih terang */
+}
+
