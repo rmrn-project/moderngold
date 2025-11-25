@@ -222,9 +222,15 @@
         }
 
 
-.norek { font-size: 1.4em; margin-top: 8px; color: #f5f0e6; }
+.norek { font-size: 1.8em; font-weight: bold; letter-spacing: 2px; margin: 15px 0; }
+        .btn-salin {
+            padding: 8px 18px; background: transparent; color: #d4af37;
+            border: 1.5px solid #d4af37; border-radius: 30px; font-size: 0.9em;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-salin:hover { background: #d4af37; color: #000; }
+        .notif { margin-top: 10px; color: #90ee90; font-size: 0.95em; display: none; }
 
-.btn-salin { margin-top: 10px; padding: 10px 20px; border: none; border-radius: 10px; background: #d4af37; color: #000; font-weight: bold; cursor: pointer; }
 
 .notif { opacity: 0; transition: 0.3s; color: #d4af37; margin-top: 5px; }
 
