@@ -380,18 +380,5 @@
 
 
 
-.btn-maps:hover {
-    text-decoration: none;   /* tetap tanpa garis bawah */
-    color: #e7c766;          /* opsional, emas lebih terang */
-}
 
-#rmrnBox a {
-    text-decoration: none;   /* hilangkan underline */
-    color: #d4af37;          /* emas */
-}
-
-#rmrnBox a:hover {
-    text-decoration: none;   /* tetap tanpa garis bawah */
-    color: #e7c766;          /* opsional – emas lebih terang */
-}
 
