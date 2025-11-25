@@ -294,9 +294,8 @@
 
 
 /* ===== FOOTER ==== */ 
-.details img, #rmrnBox img { max-width: 120px; height: auto; display: block; margin: 20px auto; }
+.details img { max-width: 120px; height: auto; display: block; margin: 20px auto; }
 
-#rmrnFooter img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
 /* ===== FOOTER ===== */ #rmrnFooter { margin: 40px 0; opacity: 0.6; font-size: 0.9em; }
 
