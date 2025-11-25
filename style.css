@@ -353,9 +353,6 @@
 
 
 
-
-
-
 /* ==== FIX: Prevent images keluar viewport ==== / .details img { max-width: 260px; / kecil biar tidak gede */ width: 80%; height: auto; display: block; margin: 20px auto; }
 
 
@@ -364,5 +361,12 @@
 
 
 /* ===== FOOTER ===== */ #rmrnFooter { margin: 40px 0; opacity: 0.6; font-size: 0.9em; }
+
+
+.bank-box img {
+    width: 70px !important;
+    max-width: 70px !important;
+    height: auto !important;
+}
 
 
