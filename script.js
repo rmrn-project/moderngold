@@ -21,7 +21,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE ===
     
+const bgm = document.getElementById("bgm");
+const musicBtn = document.getElementById("musicBtn");
+const playIcon = document.getElementById("playIcon");
+const pauseIcon = document.getElementById("pauseIcon");
 
+if (bgm && musicBtn && playIcon && pauseIcon) {
+
+    let isPlaying = false;
+
+    function updateIcons() {
+        playIcon.style.display = isPlaying ? "none" : "block";
+        pauseIcon.style.display = isPlaying ? "block" : "none";
+    }
+
+    musicBtn.addEventListener("click", async () => {
+        if (!isPlaying) {
+            try {
+                await bgm.play();
+                isPlaying = true;
+            } catch (err) {
+                console.log("Autoplay diblokir:", err);
+            }
+        } else {
+            bgm.pause();
+            isPlaying = false;
+        }
+        updateIcons();
+    });
+
+    updateIcons();
+}
 
 
 
