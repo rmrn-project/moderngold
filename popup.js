@@ -1,107 +1,141 @@
-// === POPUP JS AUTO-GENERATOR ===
+// =============== POPUP OTOMATIS RMRN ==================
+(function () {
 
-// Delay muncul popup (10 detik)
-setTimeout(() => {
-    // Buat container popup
+    // --- Buat elemen popup ---
     const popup = document.createElement("div");
-    popup.id = "rmrn-popup";
+    popup.id = "rmrnPopup";
     popup.innerHTML = `
-        <div class="popup-box">
-            <button class="popup-close">&times;</button>
+        <div class="popup-content">
+            <h2>Fitur Harga 25K</h2>
 
-            <h2>Paket Fitur 25K</h2>
             <ul>
                 <li>Ganti font</li>
                 <li>Ganti musik</li>
             </ul>
 
-            <p style="margin-top:15px;font-weight:bold;">
-                Mau tambah fitur data ucapan?
-            </p>
+            <p style="margin-top: 15px; font-weight:600;">Mau tambah fitur data ucapan?</p>
 
-            <div class="popup-section">
-                <p><strong>Setting database ucapan:</strong></p>
-                <ul>
-                    <li>Full service setting database Google pribadi +50rb</li>
-                    <li>Pakai database RMRN: 100rb / tahun</li>
-                </ul>
-            </div>
+            <ul>
+                <li>Full service setting database Google pribadi: <b>+50K</b></li>
+                <li>Pakai database RMRN <b>100K / tahun</b></li>
+            </ul>
 
-            <a href="https://wa.me/628xxxxxx" class="popup-wa" target="_blank">
-                Lanjut hubungi WA kami
+            <a class="popup-wa" href="https://wa.me/6281255721597" target="_blank">
+                Lanjut Hubungi WA Kami
             </a>
+
+            <button id="closePopup">Tutup</button>
         </div>
     `;
 
+    // --- Style popup langsung dari JS ---
+    const style = document.createElement("style");
+    style.innerHTML = `
+        #rmrnPopup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s ease;
+            z-index: 99999;
+        }
+
+        #rmrnPopup.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #rmrnPopup .popup-content {
+            width: 90%;
+            max-width: 360px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 22px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all .4s ease;
+        }
+
+        #rmrnPopup.show .popup-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #rmrnPopup h2 {
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            color: #d4af37;
+        }
+
+        #rmrnPopup ul {
+            text-align: left;
+            margin: 10px 0;
+            padding-left: 18px;
+            color: #333;
+            font-size: 0.93rem;
+        }
+
+        #rmrnPopup p {
+            color: #222;
+        }
+
+        #rmrnPopup .popup-wa {
+            display: block;
+            margin: 18px auto 10px;
+            background: #25d366;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: .3s;
+        }
+        #rmrnPopup .popup-wa:hover {
+            background: #1eb857;
+        }
+
+        #closePopup {
+            margin-top: 10px;
+            padding: 8px 14px;
+            background: #ccc;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: .3s;
+        }
+        #closePopup:hover {
+            background: #bbb;
+        }
+    `;
+
+    // Tambah ke dokumen
     document.body.appendChild(popup);
+    document.head.appendChild(style);
 
-    // Event close
-    popup.querySelector(".popup-close").addEventListener("click", () => {
-        popup.remove();
-    });
+    // === LOGIKA POPUP ===
+    function showPopup() {
+        popup.classList.add("show");
+    }
 
-}, 10000); // 10 detik
+    function hidePopup() {
+        popup.classList.remove("show");
 
+        // Muncul lagi setelah 15 detik
+        setTimeout(showPopup, 15000);
+    }
 
-// === CSS Inject ===
-const style = document.createElement("style");
-style.innerHTML = `
-#rmrn-popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-}
-#rmrn-popup .popup-box {
-    background: #fff;
-    width: 90%;
-    max-width: 350px;
-    padding: 25px 20px;
-    border-radius: 14px;
-    position: relative;
-    font-family: Arial, sans-serif;
-    animation: fadeIn .3s ease;
-}
-#rmrn-popup .popup-close {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    font-size: 26px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-#rmrn-popup h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-#rmrn-popup ul {
-    padding-left: 20px;
-    margin-bottom: 10px;
-}
-#rmrn-popup .popup-section {
-    margin-top: 10px;
-}
-.popup-wa {
-    display: block;
-    background: #25D366;
-    color: #fff;
-    padding: 12px;
-    text-align: center;
-    border-radius: 8px;
-    margin-top: 15px;
-    text-decoration: none;
-    font-weight: bold;
-}
-.popup-wa:hover {
-    opacity: 0.85;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(.9); }
-    to   { opacity: 1; transform: scale(1); }
-}
-`;
-document.head.appendChild(style);
+    // Tombol close
+    document.getElementById("closePopup").addEventListener("click", hidePopup);
+
+    // Muncul pertama kali setelah 10 detik
+    setTimeout(showPopup, 10000);
+
+})();
