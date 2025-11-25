@@ -9,7 +9,8 @@
             <h2>Fitur Harga 25K</h2>
 
             <ul>
-                <li>Ganti font</li>
+                <li>Ganti teks</li>
+                <li>Ganti font couple</li>
                 <li>Ganti musik</li>
             </ul>
 
