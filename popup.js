@@ -16,12 +16,12 @@
             <p style="margin-top: 15px; font-weight:600;">Mau tambah fitur data ucapan?</p>
 
             <ul>
-                <li>Full service setting database Google pribadi: <b>+50K</b></li>
-                <li>Pakai database RMRN <b>100K / tahun</b></li>
+                <li>Standar service setting database Google pribadi: <b>+50K</b></li>
+                <li>Standar database RMRN <b>100K / tahun</b></li>
             </ul>
 
             <a class="popup-wa" href="https://wa.me/6281255721597" target="_blank">
-                Lanjut Hubungi WA Kami
+                Pertanyaan Hubungi WA Kami
             </a>
 
             <button id="closePopup">Tutup</button>
