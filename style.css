@@ -290,6 +290,65 @@
 
 
 
+.bank-box {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.bank-box img {
+    width: 120px;
+    height: auto;
+    margin-bottom: 6px;
+}
+
+.bank-box .norek {
+    margin-top: 5px;
+}
+
+.bank-box .nama-rek {
+    margin-top: 4px;
+}
+
+.bank-box .btn-salin {
+    margin-top: 10px;
+}
+
+.bank-box .notif {
+    opacity: 0;
+    margin-top: 5px;
+    transition: .3s;
+}
+
+
+
+
+
+#rmrnBox {
+    width: 150px;
+    height: 150px;
+    margin: 40px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#rmrnBox a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#rmrnBox img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+
+
+
+
 /* ==== FIX: Prevent images keluar viewport ==== / .details img { max-width: 260px; / kecil biar tidak gede */ width: 80%; height: auto; display: block; margin: 20px auto; }
 
 
