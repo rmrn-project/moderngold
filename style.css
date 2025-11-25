@@ -370,3 +370,12 @@
 }
 
 
+.bank img {
+    width: 90px;
+    max-width: 90px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+
