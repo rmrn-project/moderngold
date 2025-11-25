@@ -21,35 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // === 3. BACKGROUND MUSIC + TOMBOL PLAY/PAUSE ===
     
-const musicBtn = document.getElementById("musicBtn");
-const audio = document.getElementById("bgm");
-
-if (musicBtn && audio) {
-    audio.volume = 0.3;
-    audio.currentTime = 1;
-
-    let dragging = false;
-    let startX = 0, startY = 0, origX = 0, origY = 0;
-
-    // Klik/tap untuk play/pause
-    musicBtn.addEventListener("click", (e) => {
-        if (!dragging) { // hanya klik, bukan drag
-            if (audio.paused) {
-                audio.play().catch(() => {});
-                document.getElementById('playIcon').style.display = 'none';
-                document.getElementById('pauseIcon').style.display = 'block';
-            } else {
-                audio.pause();
-                document.getElementById('playIcon').style.display = 'block';
-                document.getElementById('pauseIcon').style.display = 'none';
-            }
-        }
-    });
-
-    // Mulai drag
-    musicBtn.addEventListener("touchstart", startDrag, { passive: false });
-    musicBtn.addEventListener("mousedown", startDrag);
-    
 
 
 
